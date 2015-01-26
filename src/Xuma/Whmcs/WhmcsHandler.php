@@ -8,6 +8,7 @@ class WhmcsHandler extends WhmcsConnector{
     public function getClients($params=null)
     {
         $response= $this->getJson('getclients',$params);
+
         return $response->body->clients->client;
     }
 
@@ -20,15 +21,31 @@ class WhmcsHandler extends WhmcsConnector{
         return $response->body;
     }
     
-    public function getClientsProducts($identity)
+    public function getClientsProducts($id)
     {
-        $params['clientid']=$identity;
+        $params['clientid']=$id;
+
         $response= $this->getJson('getclientsproducts',$params);
+
         if($response->body->totalresults>0)
         {
             return $response->body->products;
         }
+
         return false;
     }
-    
+
+    public function getClientsDomains($id)
+    {
+        $params['clientid']=$id;
+
+        $response= $this->getJson('getclientsdomains',$params);
+
+        if($response->body->totalresults>0)
+        {
+            return $response->body->domains->domain;
+        }
+
+        return false;
+    }
 }

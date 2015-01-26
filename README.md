@@ -57,10 +57,15 @@ WHMCS::getClients();
 
 Getting single client
 ```
-WHMCS::getClientsDetails($idOrEmail);
+WHMCS::getClientsDetails($userIdOrEmail);
 ```
 
-Getting clients producs
+Getting clients products
 ```
-WHMCS::getClientsProducts($id)
+WHMCS::getClientsProducts($userId)
+```
+
+Getting clients domains
+```
+WHMCS::getClientsDomains($userId)
 ```

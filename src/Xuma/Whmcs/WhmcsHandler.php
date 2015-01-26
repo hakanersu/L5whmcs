@@ -1,10 +1,13 @@
 <?php namespace Xuma\Whmcs;
 
 use Exception;
-
+// TODO : Extract client methods to own class.
 class WhmcsHandler extends WhmcsConnector{
 
-
+    /**
+     * @param null $params
+     * @return mixed
+     */
     public function getClients($params=null)
     {
         $response= $this->getJson('getclients',$params);
@@ -12,6 +15,11 @@ class WhmcsHandler extends WhmcsConnector{
         return $response->body->clients->client;
     }
 
+    /**
+     * @param $identity
+     * @param array $params
+     * @return mixed
+     */
     public function getClientsDetails($identity,$params=[])
     {
         is_int($identity) ? ($params['clientid']=$identity) : ($params['email']=$identity);
@@ -20,7 +28,11 @@ class WhmcsHandler extends WhmcsConnector{
 
         return $response->body;
     }
-    
+
+    /**
+     * @param $id
+     * @return bool
+     */
     public function getClientsProducts($id)
     {
         $params['clientid']=$id;
@@ -35,6 +47,11 @@ class WhmcsHandler extends WhmcsConnector{
         return false;
     }
 
+    /**
+     * @param $id
+     * @param array $params
+     * @return bool
+     */
     public function getClientsDomains($id,$params=[])
     {
         $params['clientid']=$id;
@@ -49,9 +66,14 @@ class WhmcsHandler extends WhmcsConnector{
         return false;
     }
 
+    /**
+     * @param $identity
+     * @param array $params
+     * @return mixed
+     */
     public function getClientsPassword($identity,$params=[])
     {
-        is_int($identity) ? ($params['clientid']=$identity) : ($params['email']=$identity);
+        is_int($identity) ? ($params['userid']=$identity) : ($params['email']=$identity);
 
         $response= $this->getJson('getclientpassword',$params);
 

@@ -35,7 +35,7 @@ class WhmcsHandler extends WhmcsConnector{
         return false;
     }
 
-    public function getClientsDomains($id)
+    public function getClientsDomains($id,$params=[])
     {
         $params['clientid']=$id;
 
@@ -48,4 +48,19 @@ class WhmcsHandler extends WhmcsConnector{
 
         return false;
     }
+
+    public function getClientsPassword($identity,$params=[])
+    {
+        is_int($identity) ? ($params['clientid']=$identity) : ($params['email']=$identity);
+
+        $response= $this->getJson('getclientpassword',$params);
+
+        if($response->body->result=='success')
+        {
+            return $response->body->password;
+        }
+
+        return false;
+    }
+
 }

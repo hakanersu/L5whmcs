@@ -23,7 +23,7 @@ Once this operation is complete, simply add both the service provider and facade
 
 #### Config File
 
-Create *config/whmcs.php* with content:
+Create **config/whmcs.php** with content:
 
 ```
     return [
@@ -68,4 +68,9 @@ WHMCS::getClientsProducts($userId)
 Getting clients domains
 ```
 WHMCS::getClientsDomains($userId)
+```
+
+Getting clients hashed password
+```
+WHMCS::getClientsPassword($userId)
 ```

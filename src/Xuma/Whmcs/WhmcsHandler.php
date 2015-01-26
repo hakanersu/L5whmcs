@@ -55,12 +55,7 @@ class WhmcsHandler extends WhmcsConnector{
 
         $response= $this->getJson('getclientpassword',$params);
 
-        if($response->body->result=='success')
-        {
-            return $response->body->password;
-        }
-
-        return false;
+        return !$response ?: $response->body->password;
     }
 
 }

@@ -16,6 +16,10 @@ class WhmcsConnector {
         $response = Request::get($this->dataUrl($data))
             ->expectsJson()
             ->send();
+        if($response->body->result!='success')
+        {
+            return false;
+        }
         return $response;
     }
 

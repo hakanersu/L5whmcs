@@ -21,6 +21,19 @@ Don't forget to update composer update.
 
 Once this operation is complete, simply add both the service provider and facade classes to your project's config/app.php file:
 
+#### Config File
+
+Create *config/whmcs.php* with content:
+
+```
+    return [
+        'url'=>'https://whmcsurl/includes/api.php',
+        'username'=>'yourapiusername',
+        'password'=>'yourapipassword'
+    ];
+```
+
+
 #### Service Provider
 ```
 'Xuma\Amaran\AmaranServiceProvider',

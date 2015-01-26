@@ -4,28 +4,31 @@ use Exception;
 
 class WhmcsHandler extends WhmcsConnector{
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
-    
+
     public function getClients($params=null)
     {
         $response= $this->getJson('getclients',$params);
         return $response->body->clients->client;
     }
-    public function getClientsDetails($identity,$params=null)
+
+    public function getClientsDetails($identity,$params=[])
     {
-        if(is_int($identity))
-        {
-            $params['clientid'] = $identity;
-        }
-        else
-        {
-            $params['email'] = $identity;
-        }
+        is_int($identity) ? ($params['clientid']=$identity) : ($params['email']=$identity);
+
         $response= $this->getJson('getclientsdetails',$params);
 
         return $response->body;
     }
+    
+    public function getClientsProducts($identity)
+    {
+        $params['clientid']=$identity;
+        $response= $this->getJson('getclientsproducts',$params);
+        if($response->body->totalresults>0)
+        {
+            return $response->body->products;
+        }
+        return false;
+    }
+    
 }

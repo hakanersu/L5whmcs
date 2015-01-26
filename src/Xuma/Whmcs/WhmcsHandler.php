@@ -67,6 +67,7 @@ class WhmcsHandler extends WhmcsConnector{
     }
 
     /**
+     * TODO: Something wrong with whmcs ClientsPassword Api call.
      * @param $identity
      * @param array $params
      * @return mixed
@@ -79,5 +80,4 @@ class WhmcsHandler extends WhmcsConnector{
 
         return !$response ?: $response->body->password;
     }
-
 }

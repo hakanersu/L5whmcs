@@ -11,15 +11,43 @@ Begin by installing the package through Composer. The best way to do this is thr
 ```
 composer require xuma/l5whmcs
 ```
+or you can add your composer.json require section:
+
+```
+"xuma/l5whmcs": "~1.0@dev"
+```
+
+Don't forget to update composer update.
+
+Once this operation is complete, simply add both the service provider and facade classes to your project's config/app.php file:
+
+#### Service Provider
+```
+'Xuma\Amaran\AmaranServiceProvider',
+```
+
+#### Facade
+```
+'WHMCS'=> 'Xuma\Whmcs\Facades\Whmcs',
+```
+
+
+
+Examples
+------------
+
+Getting all clients.
 
 ```
 WHMCS::getClients();
 ```
 
+Getting single client
 ```
 WHMCS::getClientsDetails($idOrEmail);
 ```
 
+Getting clients producs
 ```
 WHMCS::getClientsProducts($id)
 ```

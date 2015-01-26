@@ -6,5 +6,5 @@ WHMCS::getClients();
 ```
 
 ```
-WHMCS::getClientsDetails();
+WHMCS::getClientsDetails($idOrEmail);
 ```

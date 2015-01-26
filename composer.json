@@ -1,0 +1,30 @@
+{
+    "name": "xuma/l5whmcs",
+    "description": "Laravel 5 WHMCS API",
+    "keywords": ["whmcs", "laravel", "api"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Hakan ERSU",
+            "email": "hakanersu@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": ">=5.0.0"
+    },
+    "require-dev": {
+       
+    },
+    "autoload": {
+        "psr-0": {
+            "Xuma\\Whmcs": "src/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    },
+    "minimum-stability": "dev"
+}

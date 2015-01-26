@@ -1,5 +1,5 @@
 {
-    "name": "xuma/l5whmcs",
+    "name": "xuma/whmcs",
     "description": "Laravel 5 WHMCS API",
     "keywords": ["whmcs", "laravel", "api"],
     "license": "MIT",

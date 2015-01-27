@@ -1,11 +1,17 @@
 <?php namespace Xuma\Whmcs;
 
-use Httpful\Request;
-
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Exception\ClientException;
 class WhmcsConnector {
+    protected $client;
 
+    public function __construct(Client $client){
+        $this->client = $client;
+    }
     /**
      * Make a request to whmcs api.Some whmcs response not working as expected.
+     *
      * @param $action
      * @param null $params
      * @return bool
@@ -19,29 +25,35 @@ class WhmcsConnector {
 
         $data = ($params===NULL) ?: array_merge($data,$params);
 
-        $response = Request::get($this->dataUrl($data))
-            ->expectsJson()
-            ->send();
+        try{
+            $request = $this->client->createRequest('POST',$this->dataUrl(),[
+                'headers' => ['User-Agent' =>\Config::get('whmcs.user_agent')],
+                'body'=>$data
+            ]);
 
-        if($response->body->result!='success')
+            $response = $this->client->send($request);
+
+            $data = $response->json();
+
+            return $data;
+        }
+        catch (ClientException $e)
         {
             return false;
         }
-
-        return $response;
     }
 
     /**
-     * Generate Whmcs api request url
+     * Generate Whmcs api request url.
+     *
      * @param $data
      * @return string
      */
-    public function dataUrl($data)
+    public function dataUrl()
     {
         return  \Config::get('whmcs.url')."?".http_build_query(array_merge([
             'username'=>\Config::get('whmcs.username'),
             'password'=> md5(\Config::get('whmcs.password'))
-        ],$data));
+        ]));
     }
-
 }

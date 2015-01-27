@@ -1,10 +1,14 @@
 <?php namespace Xuma\Whmcs;
 
 use Exception;
-// TODO : Extract client methods to own class.
+
 class WhmcsHandler extends WhmcsConnector{
 
+
+
     /**
+     * Get all clients.
+     *
      * @param null $params
      * @return mixed
      */
@@ -16,6 +20,8 @@ class WhmcsHandler extends WhmcsConnector{
     }
 
     /**
+     * Getting clients details.
+     *
      * @param $identity
      * @param array $params
      * @return mixed
@@ -30,6 +36,8 @@ class WhmcsHandler extends WhmcsConnector{
     }
 
     /**
+     * Getting clients products.
+     *
      * @param $id
      * @return bool
      */
@@ -48,6 +56,8 @@ class WhmcsHandler extends WhmcsConnector{
     }
 
     /**
+     * Get clients domains.
+     *
      * @param $id
      * @param array $params
      * @return bool
@@ -67,7 +77,8 @@ class WhmcsHandler extends WhmcsConnector{
     }
 
     /**
-     * TODO: Something wrong with whmcs ClientsPassword Api call.
+     * Get clients password.
+     *
      * @param $identity
      * @param array $params
      * @return mixed
@@ -78,6 +89,6 @@ class WhmcsHandler extends WhmcsConnector{
 
         $response= $this->getJson('getclientpassword',$params);
 
-        return !$response ?: $response->body->password;
+        return !$response ?: $response['password'];
     }
 }

@@ -12,11 +12,11 @@ class WhmcsHandler extends WhmcsConnector{
      * @param null $params
      * @return mixed
      */
-    public function getClients($params=null)
+    public function getClients($params=[])
     {
         $response= $this->getJson('getclients',$params);
 
-        return $response->body->clients->client;
+        return $response->clients['client'];
     }
 
     /**
@@ -32,7 +32,7 @@ class WhmcsHandler extends WhmcsConnector{
 
         $response= $this->getJson('getclientsdetails',$params);
 
-        return $response->body;
+        return $response;
     }
 
     /**
@@ -47,12 +47,7 @@ class WhmcsHandler extends WhmcsConnector{
 
         $response= $this->getJson('getclientsproducts',$params);
 
-        if($response->body->totalresults>0)
-        {
-            return $response->body->products;
-        }
-
-        return false;
+        return ($response->totalresults>0) ? $response->products['product'] :false;
     }
 
     /**
@@ -68,12 +63,7 @@ class WhmcsHandler extends WhmcsConnector{
 
         $response= $this->getJson('getclientsdomains',$params);
 
-        if($response->body->totalresults>0)
-        {
-            return $response->body->domains->domain;
-        }
-
-        return false;
+        return ($response->totalresults>0) ? $response->domains['domain'] :false;
     }
 
     /**
@@ -89,6 +79,6 @@ class WhmcsHandler extends WhmcsConnector{
 
         $response= $this->getJson('getclientpassword',$params);
 
-        return !$response ?: $response['password'];
+        return $response ? $response->password :false;
     }
 }

@@ -33,9 +33,9 @@ class WhmcsConnector {
 
             $response = $this->client->send($request);
 
-            $data = $response->json();
+            $data = (object)$response->json();
 
-            return $data;
+            return ($data->result=="success") ? $data : false;
         }
         catch (ClientException $e)
         {

@@ -30,6 +30,7 @@ Create **config/whmcs.php** with content:
         'url'=>'https://whmcsurl/includes/api.php',
         'username'=>'yourapiusername',
         'password'=>'yourapipassword'
+        'user_agent'=>'Your Agent Name'
     ];
 ```
 

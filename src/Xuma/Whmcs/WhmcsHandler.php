@@ -3,9 +3,6 @@
 use Exception;
 
 class WhmcsHandler extends WhmcsConnector{
-
-
-
     /**
      * Get all clients.
      *
@@ -83,6 +80,12 @@ class WhmcsHandler extends WhmcsConnector{
     }
 
 
+    /**
+     * Get clients all tickets.
+     * @param $identity
+     * @param array $params
+     * @return bool
+     */
     public function getClientsTickets($identity,$params=[])
     {
         is_int($identity) ? ($params['clientid']=$identity) : ($params['email']=$identity);
@@ -92,6 +95,11 @@ class WhmcsHandler extends WhmcsConnector{
         return $response->numreturned>0 ? $response->tickets['ticket'] : false;
     }
 
+    /**
+     * Get clients single ticket.
+     * @param $ticketid
+     * @return bool
+     */
     public function getClientsTicket($ticketid)
     {
         $params['ticketid']=$ticketid;
@@ -99,5 +107,10 @@ class WhmcsHandler extends WhmcsConnector{
         $response= $this->getJson('getticket',$params);
 
         return $response;
+    }
+
+    public function postTicketReply()
+    {
+
     }
 }

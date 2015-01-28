@@ -81,4 +81,14 @@ class WhmcsHandler extends WhmcsConnector{
 
         return $response ? $response->password :false;
     }
+
+
+    public function getClientsTickets($identity,$params=[])
+    {
+        is_int($identity) ? ($params['clientid']=$identity) : ($params['email']=$identity);
+
+        $response= $this->getJson('gettickets',$params);
+
+        return $response->numreturned>0 ? $response->tickets['ticket'] : false;
+    }
 }

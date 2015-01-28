@@ -91,4 +91,13 @@ class WhmcsHandler extends WhmcsConnector{
 
         return $response->numreturned>0 ? $response->tickets['ticket'] : false;
     }
+
+    public function getClientsTicket($ticketid)
+    {
+        $params['ticketid']=$ticketid;
+
+        $response= $this->getJson('getticket',$params);
+
+        return $response;
+    }
 }

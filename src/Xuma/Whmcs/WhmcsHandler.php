@@ -1,161 +1,65 @@
 <?php namespace Xuma\Whmcs;
 
-use Exception;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
+use Xuma\Whmcs\Traits\Clients;
+use Xuma\Whmcs\Traits\Invoices;
+use Xuma\Whmcs\Traits\Tickets;
 
-class WhmcsHandler extends WhmcsConnector{
+class WhmcsHandler{
+    use Clients,Tickets,Invoices;
+
+    protected $client;
+
+    public function __construct(Client $client){
+        $this->client = $client;
+    }
+
     /**
-     * Get all clients.
+     * Make a request to whmcs api.Some whmcs response not working as expected.
      *
+     * @param $action
      * @param null $params
-     * @return mixed
+     * @return bool
      */
-    public function getClients($params=[])
+    public function getJson($action,$params=NULL)
     {
-        $response= $this->getJson('getclients',$params);
+        $data=[
+            'action'=>$action,
+            'responsetype'=>'json'
+        ];
 
-        return $response->clients['client'];
+        $data = ($params===NULL) ?: array_merge($data,$params);
+
+        try{
+            $request = $this->client->createRequest('POST',$this->dataUrl(),[
+                'headers' => ['User-Agent' =>\Config::get('whmcs.user_agent')],
+                'body'=>$data
+            ]);
+
+            $response = $this->client->send($request);
+
+            $data = (object)$response->json();
+
+            return ($data->result=="success") ? $data : false;
+        }
+        catch (ClientException $e)
+        {
+            return false;
+        }
     }
 
     /**
-     * Getting clients details.
+     * Generate Whmcs api request url.
      *
-     * @param $identity
-     * @param array $params
-     * @return mixed
+     * @param $data
+     * @return string
      */
-    public function getClientsDetails($identity,$params=[])
+    public function dataUrl()
     {
-        is_int($identity) ? ($params['clientid']=$identity) : ($params['email']=$identity);
-
-        $response= $this->getJson('getclientsdetails',$params);
-
-        return $response;
-    }
-
-    /**
-     * Getting clients products.
-     *
-     * @param $id
-     * @return bool
-     */
-    public function getClientsProducts($id)
-    {
-        $params['clientid']=$id;
-
-        $response= $this->getJson('getclientsproducts',$params);
-
-        return ($response->totalresults>0) ? $response->products['product'] :false;
-    }
-
-    /**
-     * Get clients domains.
-     *
-     * @param $id
-     * @param array $params
-     * @return bool
-     */
-    public function getClientsDomains($id,$params=[])
-    {
-        $params['clientid']=$id;
-
-        $response= $this->getJson('getclientsdomains',$params);
-
-        return ($response->totalresults>0) ? $response->domains['domain'] :false;
-    }
-
-    /**
-     * Get clients password.
-     *
-     * @param $identity
-     * @param array $params
-     * @return mixed
-     */
-    public function getClientsPassword($identity,$params=[])
-    {
-        is_int($identity) ? ($params['userid']=$identity) : ($params['email']=$identity);
-
-        $response= $this->getJson('getclientpassword',$params);
-
-        return $response ? $response->password :false;
-    }
-
-
-    /**
-     * Get clients all tickets.
-     * @param $identity
-     * @param array $params
-     * @return bool
-     */
-    public function getClientsTickets($identity,$params=[])
-    {
-        is_int($identity) ? ($params['clientid']=$identity) : ($params['email']=$identity);
-
-        $response= $this->getJson('gettickets',$params);
-
-        return $response->numreturned>0 ? $response->tickets['ticket'] : false;
-    }
-
-    /**
-     * Get clients single ticket.
-     * @param $ticketid
-     * @return bool
-     */
-    public function getClientsTicket($ticketid)
-    {
-        $params['ticketid']=$ticketid;
-
-        $response= $this->getJson('getticket',$params);
-
-        return $response;
-    }
-
-    /**
-     * Post a ticket reply
-     * @param $params
-     * @return bool
-     */
-    public function postTicketReply($params)
-    {
-        $response= $this->getJson('addticketreply',$params);
-
-        return $response->result=="success" ? true :false;
-    }
-
-    /**
-     * Create a new ticket.
-     * @param $params
-     * @return bool
-     */
-    public function postNewTicket($params)
-    {
-        $response= $this->getJson('openticket',$params);
-
-        return $response->result=="success" ? true :false;
-    }
-    
-    /**
-     * Get invoices.
-     * @param $params
-     * @return bool
-     */
-    public function getInvoices($params)
-    {
-        $response = $this->getJson('getinvoices',$params);
-
-        return ($response->numreturned>0) ? $response->invoices['invoice'] :false;
-    }
-
-    /**
-     * This is a custom api function that
-     * i create for getting invoices with items.
-     *
-     * @param $params
-     * @return bool
-     */
-    public function getCustomInvoices($params)
-    {
-        $response = $this->getJson('getinvoiceswithitems',$params);
-
-        return ($response->numreturned>0) ? $response->invoices :false;
+        return  \Config::get('whmcs.url')."?".http_build_query(array_merge([
+            'username'=>\Config::get('whmcs.username'),
+            'password'=> md5(\Config::get('whmcs.password'))
+        ]));
     }
 }

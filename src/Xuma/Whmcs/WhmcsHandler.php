@@ -7,7 +7,7 @@ use Xuma\Whmcs\Traits\Invoices;
 use Xuma\Whmcs\Traits\Tickets;
 
 class WhmcsHandler{
-    use Clients,Tickets,Invoices;
+    use Clients,Tickets,Invoices,Orders;
 
     protected $client;
 

@@ -8,6 +8,6 @@ trait Orders {
 
 		$response= $this->getJson('addorder',$params);
 
-		return $response->result=="success" ? true :false;
+		return $response;
 	}
 }

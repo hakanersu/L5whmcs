@@ -5,6 +5,7 @@ use GuzzleHttp\Exception\ClientException;
 use Xuma\Whmcs\Traits\Clients;
 use Xuma\Whmcs\Traits\Invoices;
 use Xuma\Whmcs\Traits\Tickets;
+use Xuma\Whmcs\Traits\Orders;
 
 class WhmcsHandler{
     use Clients,Tickets,Invoices,Orders;

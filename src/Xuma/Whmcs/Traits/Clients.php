@@ -40,7 +40,7 @@ trait Clients {
     {
         $params['clientid']=$id;
 
-        $response= $this->getJson('getclientsproducts',$params);
+        $response= $this->getJson('cdngetclientsproducts',$params);
 
         return ($response->totalresults>0) ? $response->products['product'] :false;
     }

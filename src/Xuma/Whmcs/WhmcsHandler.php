@@ -26,6 +26,8 @@ class WhmcsHandler{
     public function getJson($action,$params=NULL)
     {
         $data=[
+            'username'=>\Config::get('whmcs.username'),
+            'password'=>md5(\Config::get('whmcs.password')),
             'action'=>$action,
             'responsetype'=>'json'
         ];
@@ -58,9 +60,6 @@ class WhmcsHandler{
      */
     public function dataUrl()
     {
-        return  \Config::get('whmcs.url')."?".http_build_query(array_merge([
-            'username'=>\Config::get('whmcs.username'),
-            'password'=> md5(\Config::get('whmcs.password'))
-        ]));
+        return  \Config::get('whmcs.url');
     }
 }

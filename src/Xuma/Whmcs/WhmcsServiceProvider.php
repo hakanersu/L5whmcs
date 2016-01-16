@@ -42,7 +42,7 @@ class WhmcsServiceProvider extends ServiceProvider
 	protected function registerServices()
 	{
 		
-		$this->app->bindShared('whmcs', function($app) {
+		$this->app->singleton('whmcs', function($app) {
 			return $this->app->make('Xuma\Whmcs\WhmcsHandler');
 		});
 	}

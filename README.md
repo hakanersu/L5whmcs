@@ -29,7 +29,7 @@ Create **config/whmcs.php** with content:
     return [
         'url'=>'https://whmcsurl/includes/api.php',
         'username'=>'yourapiusername',
-        'password'=>'yourapipassword'
+        'password'=>'yourapipassword',
         'user_agent'=>'Your Agent Name'
     ];
 ```
@@ -37,7 +37,7 @@ Create **config/whmcs.php** with content:
 
 #### Service Provider
 ```
-'Xuma\Amaran\AmaranServiceProvider',
+'Xuma\Amaran\WhmcsServiceProvider',
 ```
 
 #### Facade

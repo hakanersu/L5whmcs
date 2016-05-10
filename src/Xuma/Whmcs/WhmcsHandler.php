@@ -35,14 +35,11 @@ class WhmcsHandler{
         $data = ($params===NULL) ?: array_merge($data,$params);
 
         try{
-            $request = $this->client->createRequest('POST',$this->dataUrl(),[
-                'headers' => ['User-Agent' =>\Config::get('whmcs.user_agent')],
-                'body'=>$data
+            $response = $this->client->request('POST', $this->dataUrl(), [
+                'form_params' => $data
             ]);
 
-            $response = $this->client->send($request);
-
-            $data = (object)$response->json();
+            $data = json_decode((string)$response->getBody());
 
             return ($data->result=="success") ? $data : false;
         }

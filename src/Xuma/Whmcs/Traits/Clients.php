@@ -4,14 +4,14 @@ trait Clients {
     /**
      * Get all clients.
      *
-     * @param null $params
+     * @param array|null $params
      * @return mixed
      */
     public function getClients($params=[])
     {
         $response= $this->getJson('getclients',$params);
 
-        return $response->clients['client'];
+        return $response->clients->client;
     }
 
     /**
@@ -39,10 +39,10 @@ trait Clients {
     public function getClientsProducts($id)
     {
         $params['clientid']=$id;
+        // TODO not working.
+        $response= $this->getJson('getclientsproducts',$params);
 
-        $response= $this->getJson('cdngetclientsproducts',$params);
-
-        return ($response->totalresults>0) ? $response->products['product'] :false;
+        return ($response->totalresults>0) ? $response->products->product :false;
     }
 
     /**
@@ -58,7 +58,7 @@ trait Clients {
 
         $response= $this->getJson('getclientsdomains',$params);
 
-        return ($response->totalresults>0) ? $response->domains['domain'] :false;
+        return ($response->totalresults>0) ? $response->domains->domain :false;
     }
 
     /**
@@ -90,7 +90,7 @@ trait Clients {
 
         $response= $this->getJson('gettickets',$params);
 
-        return $response->numreturned>0 ? $response->tickets['ticket'] : false;
+        return $response->numreturned>0 ? $response->tickets->ticket : false;
     }
 
     /**
@@ -107,6 +107,12 @@ trait Clients {
         return $response;
     }
 
+    public function decrypt($hash)
+    {
+        $params['password2'] = $hash;
 
+        $response = $this->getJson('decryptpassword',$params);
 
+        return $response->password;
+    }
 }

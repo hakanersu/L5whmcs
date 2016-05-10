@@ -37,7 +37,7 @@ Create **config/whmcs.php** with content:
 
 #### Service Provider
 ```
-'Xuma\Amaran\WhmcsServiceProvider',
+'Xuma\Whmcs\WhmcsServiceProvider',
 ```
 
 #### Facade
